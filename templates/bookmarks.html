@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Bookmarked Scholarships - ScholarMate{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Bookmarked Scholarships</h2>
+    {% if scholarships %}
+    <div class="table-container">
+        <table class="scholarship-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Country</th>
+                    <th>University</th>
+                    <th>Degree Level</th>
+                    <th>Field of Study</th>
+                    <th>Deadline</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for scholarship in scholarships %}
+                <tr>
+                    <td><a href="{{ scholarship[7] }}" target="_blank">{{ scholarship[1] }}</a></td>
+                    <td>{{ scholarship[2] }}</td>
+                    <td>{{ scholarship[3] }}</td>
+                    <td>{{ scholarship[4] }}</td>
+                    <td>{{ scholarship[5] }}</td>
+                    <td>{{ scholarship[6] }}</td>
+                    <td>
+                        <a href="{{ url_for('toggle_bookmark', scholarship_id=scholarship[0]) }}" 
+                           class="button bookmarked">
+                            ★
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p class="no-data">No bookmarked scholarships found. <a href="{{ url_for('view_scholarships') }}">View all scholarships</a> to bookmark some.</p>
+    {% endif %}
+</div>
+{% endblock %} 
