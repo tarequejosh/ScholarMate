@@ -4,43 +4,68 @@
 
 {% block content %}
 <div class="container">
-    <h2>Bookmarked Scholarships</h2>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="fas fa-bookmark me-2"></i>Bookmarked Scholarships</h2>
+        <a href="{{ url_for('add_scholarship') }}" class="btn btn-success">
+            <i class="fas fa-plus me-2"></i>Add New Scholarship
+        </a>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
     {% if scholarships %}
-    <div class="table-container">
-        <table class="scholarship-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Country</th>
-                    <th>University</th>
-                    <th>Degree Level</th>
-                    <th>Field of Study</th>
-                    <th>Deadline</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for scholarship in scholarships %}
-                <tr>
-                    <td><a href="{{ scholarship[7] }}" target="_blank">{{ scholarship[1] }}</a></td>
-                    <td>{{ scholarship[2] }}</td>
-                    <td>{{ scholarship[3] }}</td>
-                    <td>{{ scholarship[4] }}</td>
-                    <td>{{ scholarship[5] }}</td>
-                    <td>{{ scholarship[6] }}</td>
-                    <td>
-                        <a href="{{ url_for('toggle_bookmark', scholarship_id=scholarship[0]) }}" 
-                           class="button bookmarked">
-                            ★
+    <div class="row">
+        {% for scholarship in scholarships %}
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100 border-warning">
+                <div class="card-header bg-warning text-dark">
+                    <h5 class="mb-0">
+                        <i class="fas fa-bookmark me-2"></i>Bookmarked
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ scholarship[1] }}</h5>
+                    <div class="mb-3">
+                        <span class="badge bg-primary me-2">{{ scholarship[2] }}</span>
+                        <span class="badge bg-secondary">{{ scholarship[3] }}</span>
+                    </div>
+                    <p class="card-text">
+                        <strong>Degree Level:</strong> {{ scholarship[4] }}<br>
+                        <strong>Field:</strong> {{ scholarship[5] }}<br>
+                        <strong>Deadline:</strong> {{ scholarship[6] }}
+                    </p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <a href="{{ scholarship[7] }}" target="_blank" class="btn btn-primary btn-sm">
+                            <i class="fas fa-external-link-alt me-1"></i>Visit
                         </a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                        <a href="{{ url_for('toggle_bookmark', scholarship_id=scholarship[0]) }}" 
+                           class="btn btn-warning btn-sm">
+                            <i class="fas fa-bookmark"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
     </div>
     {% else %}
-    <p class="no-data">No bookmarked scholarships found. <a href="{{ url_for('view_scholarships') }}">View all scholarships</a> to bookmark some.</p>
+    <div class="text-center py-5">
+        <i class="fas fa-bookmark fa-3x text-muted mb-3"></i>
+        <h4>No Bookmarked Scholarships</h4>
+        <p class="text-muted">Start bookmarking scholarships to keep track of your favorites!</p>
+        <a href="{{ url_for('view_scholarships') }}" class="btn btn-primary mt-3">
+            <i class="fas fa-list me-2"></i>View All Scholarships
+        </a>
+    </div>
     {% endif %}
 </div>
 {% endblock %} 

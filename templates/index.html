@@ -3,29 +3,59 @@
 {% block title %}Home - ScholarMate{% endblock %}
 
 {% block content %}
-<div class="container">
-    <div class="welcome-section">
-        <h2>Welcome to ScholarMate</h2>
-        <p>Your comprehensive scholarship management system. Keep track of scholarship opportunities, deadlines, and bookmark your favorites.</p>
-    </div>
-    
-    <div class="quick-actions">
-        <div class="action-card">
-            <h3>Add New Scholarship</h3>
-            <p>Add a new scholarship opportunity to your database</p>
-            <a href="{{ url_for('add_scholarship') }}" class="button">Add Scholarship</a>
-        </div>
-        
-        <div class="action-card">
-            <h3>View All Scholarships</h3>
-            <p>Browse through all available scholarships</p>
-            <a href="{{ url_for('view_scholarships') }}" class="button">View All</a>
-        </div>
-        
-        <div class="action-card">
-            <h3>Upcoming Deadlines</h3>
-            <p>Check scholarships with deadlines within 30 days</p>
-            <a href="{{ url_for('view_alerts') }}" class="button">View Deadlines</a>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <h1 class="display-4 mb-4">Welcome to ScholarMate</h1>
+            <p class="lead mb-4">Your one-stop platform for managing scholarship opportunities and deadlines.</p>
+            
+            {% if not session.get('user_id') %}
+            <div class="row justify-content-center mt-4">
+                <div class="col-md-6">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title mb-4">Get Started</h5>
+                            <div class="d-grid gap-3">
+                                <a href="{{ url_for('login') }}" class="btn btn-primary btn-lg">Login</a>
+                                <a href="{{ url_for('register') }}" class="btn btn-outline-primary btn-lg">Register</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="row justify-content-center mt-4">
+                <div class="col-md-8">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title mb-4">Quick Actions</h5>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <a href="{{ url_for('view_scholarships') }}" class="btn btn-primary w-100">
+                                        <i class="fas fa-list"></i> View Scholarships
+                                    </a>
+                                </div>
+                                <div class="col-md-6">
+                                    <a href="{{ url_for('add_scholarship') }}" class="btn btn-success w-100">
+                                        <i class="fas fa-plus"></i> Add Scholarship
+                                    </a>
+                                </div>
+                                <div class="col-md-6">
+                                    <a href="{{ url_for('view_bookmarks') }}" class="btn btn-info w-100">
+                                        <i class="fas fa-bookmark"></i> Bookmarks
+                                    </a>
+                                </div>
+                                <div class="col-md-6">
+                                    <a href="{{ url_for('view_alerts') }}" class="btn btn-warning w-100">
+                                        <i class="fas fa-bell"></i> Upcoming Deadlines
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
         </div>
     </div>
 </div>

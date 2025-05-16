@@ -4,53 +4,104 @@
 
 {% block content %}
 <div class="container">
-    <h2>Add New Scholarship</h2>
-    <form method="POST" class="scholarship-form">
-        <div class="form-group">
-            <label for="name">Scholarship Name</label>
-            <input type="text" id="name" name="name" required>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0"><i class="fas fa-plus-circle me-2"></i>Add New Scholarship</h3>
+                </div>
+                <div class="card-body">
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                                    {{ message }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+
+                    <form method="POST" class="needs-validation" novalidate>
+                        <div class="row g-3">
+                            <div class="col-md-12">
+                                <label for="name" class="form-label">Scholarship Name</label>
+                                <input type="text" class="form-control" id="name" name="name" required>
+                                <div class="invalid-feedback">Please enter the scholarship name.</div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="country" class="form-label">Country</label>
+                                <input type="text" class="form-control" id="country" name="country" required>
+                                <div class="invalid-feedback">Please enter the country.</div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="university" class="form-label">University</label>
+                                <input type="text" class="form-control" id="university" name="university" required>
+                                <div class="invalid-feedback">Please enter the university name.</div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="degree_level" class="form-label">Degree Level</label>
+                                <select class="form-select" id="degree_level" name="degree_level" required>
+                                    <option value="">Choose...</option>
+                                    <option value="Bachelor's">Bachelor's</option>
+                                    <option value="Master's">Master's</option>
+                                    <option value="PhD">PhD</option>
+                                    <option value="Postdoctoral">Postdoctoral</option>
+                                </select>
+                                <div class="invalid-feedback">Please select a degree level.</div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="field_of_study" class="form-label">Field of Study</label>
+                                <input type="text" class="form-control" id="field_of_study" name="field_of_study" required>
+                                <div class="invalid-feedback">Please enter the field of study.</div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="deadline" class="form-label">Application Deadline</label>
+                                <input type="date" class="form-control" id="deadline" name="deadline" required>
+                                <div class="invalid-feedback">Please select a deadline.</div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="link" class="form-label">Application Link</label>
+                                <input type="url" class="form-control" id="link" name="link" required>
+                                <div class="invalid-feedback">Please enter a valid URL.</div>
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                            <a href="{{ url_for('view_scholarships') }}" class="btn btn-secondary me-md-2">
+                                <i class="fas fa-times me-2"></i>Cancel
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-2"></i>Save Scholarship
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-        
-        <div class="form-group">
-            <label for="country">Country</label>
-            <input type="text" id="country" name="country" required>
-        </div>
-        
-        <div class="form-group">
-            <label for="university">University</label>
-            <input type="text" id="university" name="university" required>
-        </div>
-        
-        <div class="form-group">
-            <label for="degree_level">Degree Level</label>
-            <select id="degree_level" name="degree_level" required>
-                <option value="">Select Degree Level</option>
-                <option value="Bachelor">Bachelor</option>
-                <option value="Master">Master</option>
-                <option value="PhD">PhD</option>
-                <option value="Postdoc">Postdoc</option>
-            </select>
-        </div>
-        
-        <div class="form-group">
-            <label for="field_of_study">Field of Study</label>
-            <input type="text" id="field_of_study" name="field_of_study" required>
-        </div>
-        
-        <div class="form-group">
-            <label for="deadline">Application Deadline</label>
-            <input type="date" id="deadline" name="deadline" required>
-        </div>
-        
-        <div class="form-group">
-            <label for="link">Application Link</label>
-            <input type="url" id="link" name="link" required>
-        </div>
-        
-        <div class="form-actions">
-            <button type="submit" class="button">Add Scholarship</button>
-            <a href="{{ url_for('view_scholarships') }}" class="button secondary">Cancel</a>
-        </div>
-    </form>
+    </div>
 </div>
+
+<script>
+// Form validation
+(function () {
+    'use strict'
+    var forms = document.querySelectorAll('.needs-validation')
+    Array.prototype.slice.call(forms).forEach(function (form) {
+        form.addEventListener('submit', function (event) {
+            if (!form.checkValidity()) {
+                event.preventDefault()
+                event.stopPropagation()
+            }
+            form.classList.add('was-validated')
+        }, false)
+    })
+})()
+</script>
 {% endblock %} 
